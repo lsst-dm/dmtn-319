@@ -51,6 +51,7 @@ For each host we pick a random position angle and radius using its light profile
 
 The hostless sources instead have random positions in the ccd focal plane, and with magnitudes chosen from a random uniform distribution with :math:`20 \geq m \geq m_{lim} + 1`  with :math:`m_{lim}` the limiting magnitude of the image.
 
+Another critical detail we have to include in fake injection catalogs is the visit ID for each fake, or instead, some flag indicating that this is a source to be injected into a template coadd.
 
 
 Operational procedure and implementation examples
