@@ -143,6 +143,36 @@ The fake injection campaign would need three stages:
 The most intensive stages are related to the image data processing. The processing is very similar to nominal prompt processing pipeline, but it does not requires a PPDB (or APDB) to obtain metrics, and it has the extra tasks needed for pixel injection.
 
 
+What metrics does fake injection provides
+=========================================
+
+There are several pieces of information that we can obtain from the injection and recovery of sythetic source parameters.
+The main advantage is the control of the injection parameters, and later use these for finding correlations with basic performance metrics.
+
+The basic performance metrics that can be estimated in general cases are:
+
+- Fraction of detected transients.
+- Position centroid offsets
+- Flux measurment offsets
+- Shape measurements (in case of extended source injection)
+
+The first and most important parameter that we use as predictor of these metrics is the Signal to noise ratio (S/N) of the sythetic source. This quantity though, is not estimated at injection time, and therefore we use a post-processing stage of forced photometry on injection true locations to measure the source S/N. Secondly, we use the apparent magnitude of the injection, although this must be also used in combination with information about the filter used and other observing configuration parameters, like the magnitude limit, seeing size, sky brightness, or exposure time.
+
+We also evaluate our metrics as function of other key parameters, like host properties if available. Results of finding and measuring transient properties can also be used as null tests, and so, evaluating metrics as function of nuisance parameters that in principle should not affect performance is a key sanity check that we employ. Examples of this are the x/y position on the detector plane, dependency on limiting magnitude, sky coordinates, etc.
+
+
+Fake injection for Real Bogus classifier training set
+=====================================================
+
+The detection of transients in astronomical images using image differencing requires an automatic artifact rejection algorithm that can operate fastly and reliably. To make clear emphasis in the requirements for this tool, we will need a performance that can reduce this contamination.
+
+This is typically referred as the Real/Bogus (RB) problem, which is solved by applying machine learning classification models. Historically, RandomForest supervised algorithms, based on features, and more recently using Convolutional Neural Networks, or Deep Learning models.
+
+In any case, we depend on the construction of large training sets of annotated data, in the RB case, transient candidates with complete information on whether they are true astrophysical variability events or image differencing artifacts.
+
+The fake source injection pipelines provide a methodology to create training sets that share the "Bogus" population with the real data, while providing a controlled and well-characterized "Real" population through the injected fakes. By injecting synthetic sources with known properties into the images, and processing them through the same pipelines as the real data, we can generate a set of detections that are guaranteed to be astrophysical in origin (the fakes), alongside the naturally occurring artifacts and false positives.
+
+This methodology ensures that the classifier is exposed to the full range of instrumental and processing artifacts present in the data, as well as the diversity of real transient sources. Furthermore, by varying the properties of the injected sources (e.g., brightness, position, host association), we can probe the classifier's performance across different regimes and identify potential biases or failure modes. This is essential for robust artifact rejection and for meeting the scientific requirements of the Alert Production pipelines.
 
 
 
